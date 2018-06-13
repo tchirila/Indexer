@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,19 @@ namespace Indexer
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        Control control = new Control();
+        //public event PropertyChangedEventHandler PropertyChanged;
+
+        //private void onPropertyChanged(string propertyName)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
+        private void Btn_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            control.Run();
+            MessageBox.Show("Done");            
         }
     }
 }

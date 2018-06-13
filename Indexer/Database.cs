@@ -10,8 +10,8 @@ namespace Indexer
         public DbSet<Team> Teams { get; set; }
         public DbSet<Confederation> Confederations { get; set; }
         public DbSet<ConfederationChange> ConfederationChanges { get; set; }
-        public DbSet<Accuracy> Accuracy { get; set; }
         public DbSet<Result> Results { get; set; }
+        public DbSet<Status> Status { get; set; }
 
         public Database()
         {            

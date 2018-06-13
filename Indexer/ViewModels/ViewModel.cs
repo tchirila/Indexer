@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows.Input;
 
 namespace Indexer.ViewModels
@@ -47,22 +42,24 @@ namespace Indexer.ViewModels
             }
         }
 
-        private ICommand _Btn_Execute_ClickCommand;
-        public ICommand Btn_Execute_ClickCommand
-        {
-            get
-            {
-                if (_Btn_Execute_ClickCommand == null)
-                {
-                    _Btn_Execute_ClickCommand = new Command(Btn_Execute_Click, Can_Btn_Execute_Click);
-                }
-                return _Btn_Execute_ClickCommand;
-            }
-            set { _Btn_Execute_ClickCommand = value; }
-        }
+        //private ICommand _Btn_Execute_ClickCommand;
+        //public ICommand Btn_Execute_ClickCommand
+        //{
+        //    get
+        //    {
+        //        if (_Btn_Execute_ClickCommand == null)
+        //        {
+        //            _Btn_Execute_ClickCommand = new Command(Btn_Execute_Click, Can_Btn_Execute_Click);
+        //        }
+        //        return _Btn_Execute_ClickCommand;
+        //    }
+        //    set { _Btn_Execute_ClickCommand = value; }
+        //}
 
-        private void Btn_Execute_Click()
+        private void Btn_Execute_ClickCommand()
         {
+            ContentExecute = "Executing...";
+            control.Run();
             ContentExecute = "Done";
         }
 

@@ -67,11 +67,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command.cs" />
+    <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\DateOperations.cs" />
     <Compile Include="Control.cs" />
-    <Compile Include="POCOs\Accuracy.cs" />
+    <Compile Include="Functionality\ConfederationHandler.cs" />
+    <Compile Include="Functionality\CsvHandler.cs" />
+    <Compile Include="Functionality\ResultsHandler.cs" />
+    <Compile Include="Functionality\TeamHandler.cs" />
     <Compile Include="POCOs\Confederation.cs" />
     <Compile Include="POCOs\ConfederationChange.cs" />
     <Compile Include="POCOs\Result.cs" />
+    <Compile Include="POCOs\Status.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -119,6 +125,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -7,5 +7,6 @@
         public int Version { get; set; }
         public int LastUpdated { get; set; }
         public double Index { get; set; }
+        public bool Active { get; set; }
     }
 }
