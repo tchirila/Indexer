@@ -77,7 +77,7 @@
     <Compile Include="POCOs\Confederation.cs" />
     <Compile Include="POCOs\ConfederationChange.cs" />
     <Compile Include="POCOs\Result.cs" />
-    <Compile Include="POCOs\Status.cs" />
+    <Compile Include="POCOs\CurrentStatus.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

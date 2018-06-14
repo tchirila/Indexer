@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Indexer.POCOs
 {
-    public class Status
+    public class CurrentStatus
     {
         public int Id { get; set; }
         public int Date { get; set; }

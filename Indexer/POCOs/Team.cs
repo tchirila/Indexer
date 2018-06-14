@@ -6,7 +6,7 @@
         public string Name { get; set; }
         public int Version { get; set; }
         public int LastUpdated { get; set; }
-        public double Index { get; set; }
+        public double Idx { get; set; }
         public string Confederation { get; set; }   
         public bool Active { get; set; }
     }

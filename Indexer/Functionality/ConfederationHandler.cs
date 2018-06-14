@@ -11,32 +11,11 @@ namespace Indexer.Functionality
     public class ConfederationHandler
     {
         Database database = new Database();
-        ResultsHandler resultsHandler = new ResultsHandler();
-        TeamHandler teamHandler = new TeamHandler();
-
-        public double GetIndex(string name)
-        {
-            return database.Confederations.Where(x => x.Name == name && x.Active == true).FirstOrDefault().Index;
-        }
-
-        public string GetConfederationFromTxt(string teamName)
-        {
-            StreamReader file = new StreamReader("D:\\Dropbox\\Share\\Excels\\Indexer Data\\teams.txt");
-            string confederation = "";
-
-            while (!file.EndOfStream)
-            {
-                var line = file.ReadLine().Split('=');
-                if (line[1] == teamName) confederation = line[0];
-            }
-
-            file.Close();
-            return confederation;
-        }
+        TeamHandler teamHandler = new TeamHandler();        
 
         public void UpdateConfederations(List<int> dates)
         {
-            List<Result> results = resultsHandler.GetWorldCupResults(dates);
+            List<Result> results = GetWorldCupResults(dates);
             List<string> teams = teamHandler.GetAllUniqueTeams(results);
             Dictionary<string, double> indexMultipliers = teamHandler.CalculateIndexChanges(dates, results, teams);
             Dictionary<string, double> confMultipliers = CalculateConfIndexChange(indexMultipliers, dates.Last());
@@ -53,7 +32,7 @@ namespace Indexer.Functionality
             foreach (var confederation in confederations)
             {
                 List<Team> members = teams.Where(x => x.Confederation == confederation.Name).ToList();
-                double confederationMultiplier;
+                double confederationMultiplier = 1;
                 Confederation newVersion = new Confederation()
                 {
                     Name = confederation.Name,
@@ -62,33 +41,40 @@ namespace Indexer.Functionality
                     Version = confederation.Version++
                 };
 
-                if (members == null)
+                if (members.Count == 0)
                 {
-                    confederation.Active = false;                    
+                    confederation.Active = false;
                     newVersion.Index = confederation.Index > 50 ? 50 : confederation.Index;
                     confederationMultiplier = newVersion.Index / confederation.Index;
                     confederationMultipliers.Add(confederation.Name, confederationMultiplier);
                     database.Confederations.Add(newVersion);
-                    database.SaveChanges();    
-                    continue;
+                    database.SaveChanges();
                 }
-
-                List<double> indexeChanges = new List<double>();
-
-                foreach (var member in members)
+                else if (members.Count > 0)
                 {
-                    indexeChanges.Add(indexMultipliers[member.Name]);
-                }
+                    List<double> indexeChanges = new List<double>();
 
-                confederationMultiplier = indexeChanges.Average();
-                newVersion.Index = Math.Round(confederation.Index * confederationMultiplier, 3);
-                confederation.Active = false;
-                confederationMultipliers.Add(confederation.Name, confederationMultiplier);
-                database.Confederations.Add(newVersion);
-                database.SaveChanges();
+                    foreach (var member in members)
+                    {
+                        indexeChanges.Add(indexMultipliers[member.Name]);
+                    }
+
+                    confederationMultiplier = indexeChanges.Average();
+                    newVersion.Index = Math.Round(confederation.Index * confederationMultiplier, 3);
+                    confederation.Active = false;
+                    confederationMultipliers.Add(confederation.Name, confederationMultiplier);
+                    database.Confederations.Add(newVersion);
+                    database.SaveChanges();
+                }               
             }
 
             return confederationMultipliers;
+        }
+        public List<Result> GetWorldCupResults(List<int> dates)
+        {
+            int startDate = dates.First();
+            int endDate = dates.Last();
+            return database.Results.Where(x => x.Competition == "FIFA World Cup" && x.Date >= startDate && x.Date <= endDate).ToList();
         }
     }
 }

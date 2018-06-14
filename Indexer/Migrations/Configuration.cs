@@ -20,9 +20,9 @@ namespace Indexer.Migrations
                 x => x.Id,
                 new Confederation { Name = "UEFA",     Version = 1, Index = 100, Active = true },
                 new Confederation { Name = "CONMEBOL", Version = 1, Index = 100, Active = true },
-                new Confederation { Name = "CONCACAF", Version = 1, Index = 100, Active = true },
-                new Confederation { Name = "AFC",      Version = 1, Index = 100, Active = true },
-                new Confederation { Name = "CAF",      Version = 1, Index = 100, Active = true },
+                new Confederation { Name = "CONCACAF", Version = 1, Index = 75,  Active = true },
+                new Confederation { Name = "AFC",      Version = 1, Index = 75,  Active = true },
+                new Confederation { Name = "CAF",      Version = 1, Index = 75,  Active = true },
                 new Confederation { Name = "OFC",      Version = 1, Index = 50,  Active = true });
 
             database.ConfederationChanges.AddOrUpdate(
@@ -33,9 +33,9 @@ namespace Indexer.Migrations
                 new ConfederationChange { Name = "Australia", Confederation = "OFC", Date = 19800224 },
                 new ConfederationChange { Name = "Australia", Confederation = "AFC", Date = 20060222 });
 
-            database.Status.AddOrUpdate(
+            database.CurrentStatus.AddOrUpdate(
                 x => x.Id,
-                new Status { Date = 0, TotalGoalDifference = 0, TotalMatchesPlayed = 0, State = "" });
+                new CurrentStatus { Date = 0, TotalGoalDifference = 0, TotalMatchesPlayed = 0, State = "" });
         }
     }
 }

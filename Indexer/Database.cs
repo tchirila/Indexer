@@ -11,7 +11,7 @@ namespace Indexer
         public DbSet<Confederation> Confederations { get; set; }
         public DbSet<ConfederationChange> ConfederationChanges { get; set; }
         public DbSet<Result> Results { get; set; }
-        public DbSet<Status> Status { get; set; }
+        public DbSet<CurrentStatus> CurrentStatus { get; set; }
 
         public Database()
         {            
