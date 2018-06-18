@@ -16,23 +16,23 @@ namespace Indexer.Functionality
             foreach (var confederation in confederations)
             {
                 List<Team> members = database.Teams.Where(x => x.Confederation == confederation.Name && !teams.Contains(x.Name) && x.Active == true).ToList();
-                List<Team> updateMembers = new List<Team>();
 
                 foreach (var member in members)
                 {
                     member.Active = false;
-                    updateMembers.Add(new Team
+                    Team newIteration = new Team
                     {
                         Name = member.Name,
                         Version = member.Version++,
                         LastUpdated = date,
                         Confederation = member.Confederation,
                         Active = true,
-                        Idx = member.Idx * confMultipliers[confederation.Name]
-                    });
-                }
+                        Idx = Math.Round(member.Idx * confMultipliers[confederation.Name], 3)
+                    };
 
-                database.SaveChanges();
+                    database.Teams.Add(newIteration);
+                    database.SaveChanges();
+                }
             }
         }
 
@@ -86,7 +86,7 @@ namespace Indexer.Functionality
         {
             int startDate = teamDates.First();
             int endDate = teamDates.Last();
-            Team firstTeam = database.Teams.Where(x => x.Name == teamName && x.LastUpdated <= startDate).OrderByDescending(x => x.Version).ToList()[1];
+            Team firstTeam = database.Teams.Where(x => x.Name == teamName && x.LastUpdated <= startDate).OrderByDescending(x => x.LastUpdated).ToList()[1];
             Team lastTeam = database.Teams.Where(x => x.Name == teamName && x.LastUpdated == endDate).FirstOrDefault();
             return lastTeam.Idx / firstTeam.Idx;
         }

@@ -19,12 +19,13 @@ namespace Indexer
 
             if (status.Date == 0) csvHandler.LoadResultsIntoDb();
 
-            foreach (var change in changes)
-            {
-                resultsHanlder.Run(status, change.Date);
-            }
+            //foreach (var change in changes)
+            //{
+            //    resultsHanlder.Run(status, change.Date);
+            //}
 
-            resultsHanlder.Run(status, 30590101);
+            resultsHanlder.Run(status, 19900729);
+            database.SaveChanges();
         }
     }
 }

@@ -41,16 +41,18 @@ namespace Indexer.Functionality
                     awayIndex -= Constants.HOME_BONUS;
                 }
 
-                int expectedDifference = (int)Math.Ceiling((homeIndex - awayIndex) / 15);
-                expectedDifference = expectedDifference > Constants.MAX_GOAL_DIFF ? Constants.MAX_GOAL_DIFF : expectedDifference;
+                int expectedDifference = (int)Math.Ceiling((homeIndex - awayIndex) / Constants.IDX_SCALE);
                 int actualDifference = result.HomeGoals - result.AwayGoals;
                 int difference = actualDifference - expectedDifference;
                 double idxDiffCoeff = (1 - Math.Abs(homeTeam.Idx - awayTeam.Idx) / 200);
                 double totalIdxCoeff = Math.Abs((Math.Abs(homeTeam.Idx + awayTeam.Idx - 200) - 200) / 200);
-                double indexChange = 5.0 * (difference) * idxDiffCoeff * totalIdxCoeff;
+                double diffCoeff = difference > 6 ? 6 : difference;
+                double indexChange = Constants.PTS * (diffCoeff) * idxDiffCoeff * totalIdxCoeff;                
                 status.Date = result.Date;
-                status.TotalGoalDifference += difference;
+                status.TotalGoalDifference += Math.Abs(difference);
                 status.TotalMatchesPlayed++;
+                double homeIdx = Math.Round(homeIndex + indexChange, 3) < 1 ? 1 : Math.Round(homeIndex + indexChange, 3);
+                double awayIdx = Math.Round(awayIndex - indexChange, 3) < 1 ? 1 : Math.Round(awayIndex - indexChange, 3);
 
                 Team newHomeTeam = new Team()
                 {
@@ -58,7 +60,7 @@ namespace Indexer.Functionality
                     Confederation = homeTeam.Confederation,
                     LastUpdated = result.Date,
                     Version = homeTeam.Version++,
-                    Idx = Math.Round(homeIndex + indexChange, 3),
+                    Idx = homeIdx,
                     Active = isTeamActive(result.Date, homeTeam.Name)
                 };
 
@@ -68,7 +70,7 @@ namespace Indexer.Functionality
                     Confederation = awayTeam.Confederation,
                     LastUpdated = result.Date,
                     Version = awayTeam.Version++,
-                    Idx = Math.Round(awayIndex - indexChange, 3),
+                    Idx = awayIdx,
                     Active = isTeamActive(result.Date, awayTeam.Name)
                 };
 
@@ -94,7 +96,7 @@ namespace Indexer.Functionality
 
             if (result.Competition != "FIFA World Cup" && status == "done")
             {
-                //confHandler.UpdateConfederations(dates);
+                confHandler.UpdateConfederations(dates);
                 dates[0] = 0;
                 dates[1] = 0;
                 status = "pending";

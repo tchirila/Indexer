@@ -8,7 +8,9 @@ namespace Indexer.Common
 {
     public static class Constants
     {
-        public const double HOME_BONUS = 3;
+        public const double HOME_BONUS = 0;
         public const int MAX_GOAL_DIFF = 10;
+        public const double IDX_SCALE = 30;
+        public const double PTS = 5;
     }
 }
